@@ -1,4 +1,6 @@
-CircularReveal
+CircularTransform
+based on https://github.com/ozodrukh/CircularReveal
+Readme and code is under development.
 ==============
 
 Lollipop ViewAnimationUtils.createCircularReveal for everyone 2.3+
