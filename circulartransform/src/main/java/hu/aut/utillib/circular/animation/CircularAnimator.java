@@ -2,9 +2,7 @@ package hu.aut.utillib.circular.animation;
 
 import android.view.View;
 
-/**
- * @hide
- */
+
 public interface CircularAnimator {
 
 
@@ -34,11 +32,19 @@ public interface CircularAnimator {
     void setCenter(int cx, int cy);
 
     /**
-     * Reference the target of reveal animation
+     * Reference the target of circular animation to appear
      *
      * @param target View to clip outlines
      */
     void setTarget(View target);
+
+
+    /**
+     * Reference the target of circular animation to disappear
+     *
+     * @param target View to clip outlines
+     */
+    void setSource(View target);
 
     /**
      * Used with animator to animate view clipping

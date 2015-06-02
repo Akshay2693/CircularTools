@@ -3,15 +3,15 @@ package hu.aut.utillib.circular.widget;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Path;
+import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import hu.aut.utillib.circular.animation.TransformAnimator;
+import hu.aut.utillib.circular.animation.CircularAnimator;
 
-public class CircularFrameLayout extends FrameLayout implements TransformAnimator {
 
-    public static final String TAG = CircularFrameLayout.class.getSimpleName();
+public class CircularFrameLayout extends FrameLayout implements CircularAnimator {
 
     Path mRevealPath;
 
@@ -89,7 +89,7 @@ public class CircularFrameLayout extends FrameLayout implements TransformAnimato
     }
 
     @Override
-    protected boolean drawChild(Canvas canvas, View child, long drawingTime) {
+    protected boolean drawChild(@NonNull Canvas canvas, @NonNull View child, long drawingTime) {
         if (mClipOutlines && (child == mTarget || child == mSource)) {
 
             final int state = canvas.save();

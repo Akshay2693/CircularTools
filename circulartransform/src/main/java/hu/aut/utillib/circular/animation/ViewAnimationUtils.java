@@ -38,7 +38,7 @@ public class ViewAnimationUtils {
      * @param centerY     The y coordinate of the center of the animating circle.
      * @param startRadius The starting radius of the animating circle.
      * @param endRadius   The ending radius of the animating circle.
-     * @param mode        The behavior of the animation. If set to {@link ViewAnimationUtils#AUTOMATIC}
+     * @param mode        The behavior of the animation. If set to {@link #AUTOMATIC}
      *                    the animated views visibility will change automatically,
      *                    otherwise these properties won't be touched.
      */
@@ -69,7 +69,7 @@ public class ViewAnimationUtils {
      * @param centerY     The y coordinate of the center of the animating circle.
      * @param startRadius The starting radius of the animating circle.
      * @param endRadius   The ending radius of the animating circle.
-     * @param mode        The behavior of the animation. If set to {@link ViewAnimationUtils#AUTOMATIC}
+     * @param mode        The behavior of the animation. If set to {@link #AUTOMATIC}
      *                    the animated views visibility will change automatically,
      *                    otherwise these properties won't be touched.
      */
@@ -83,11 +83,11 @@ public class ViewAnimationUtils {
             }
         }
 
-        if (!(target.getParent() instanceof TransformAnimator)) {
+        if (!(target.getParent() instanceof CircularAnimator)) {
             throw new IllegalArgumentException("View must be inside TransformFrameLayout");
         }
 
-        TransformAnimator transformLayout = (TransformAnimator) target.getParent();
+        CircularAnimator transformLayout = (CircularAnimator) target.getParent();
         transformLayout.setTarget(target);
         transformLayout.setClipOutlines(true);
         transformLayout.setSource(source);
