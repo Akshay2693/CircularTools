@@ -1,18 +1,11 @@
 <resources>
     <string name="app_name">Circular Demo</string>
 
-    <string name="title_section1">RevealFrameLayout</string>
-    <string name="title_section2">RevealLinearLayout</string>
-    <string name="title_section3">TransformFrameLayout</string>
-    <string name="title_section4">TransformerView</string>
+    <string name="title_section1">Reveal</string>
+    <string name="title_section2">Transform</string>
+    <string name="title_section3"> </string>
+    <string name="title_section4"> </string>
 
     <string name="tap_me">Tap me to hide</string>
-
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-
-    <string name="action_example">Example action</string>
-
-    <string name="action_settings">Settings</string>
 
 </resources>

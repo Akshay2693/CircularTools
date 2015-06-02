@@ -31,10 +31,7 @@ repositories {
 
 dependencies {
     compile project(':circulartransform')
-    compile 'com.android.support:appcompat-v7:22.1.1'
-    compile 'com.shamanland:fab:0.0.8'
-    compile 'com.wada811:android-material-design-colors:2.0.0'
-    compile 'com.android.support:support-v4:22.1.1'
-    compile 'com.android.support:cardview-v7:22.1.1'
-    compile project(':circualreveal')
+    compile 'com.android.support:design:22.2.0'
+    compile 'com.android.support:appcompat-v7:22.2.0'
+    compile 'com.android.support:cardview-v7:22.2.0'
 }
