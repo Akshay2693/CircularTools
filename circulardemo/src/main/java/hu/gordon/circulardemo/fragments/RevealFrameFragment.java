@@ -130,7 +130,6 @@ public class RevealFrameFragment extends Fragment {
                 animator.setDuration(1500);
 
                 myView.setVisibility(View.VISIBLE);
-
                 animator.start();
 
             }

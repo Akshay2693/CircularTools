@@ -2,6 +2,7 @@ package hu.gordon.circulardemo.fragments;
 
 
 import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -33,6 +34,7 @@ public class TransformFrameFragment extends Fragment implements Animator.Animato
     private ImageView imageView1, imageView2;
     private boolean state = true;
     private boolean animationInProgress = false;
+    private ObjectAnimator animator;
 
     private ImageView mySourceView;
     private ImageView myTargetView;
@@ -82,6 +84,7 @@ public class TransformFrameFragment extends Fragment implements Animator.Animato
             public void onClick(View view) {
 
                 if(animationInProgress){
+                    animator.cancel();
                     return;
                 }
 
@@ -93,22 +96,21 @@ public class TransformFrameFragment extends Fragment implements Animator.Animato
                     myTargetView = imageView1;
                 }
 
-                myTargetView.setVisibility(View.INVISIBLE);
-
                 //
                 // Pre-calculations
                 //
                 // get the final radius for the clipping circle
                 float finalRadius = ViewAnimationUtils.hypo(screenWidth, screenHeight);
-                int[] center = ViewAnimationUtils.getCenter(fab,myTargetView);
+                int[] center = ViewAnimationUtils.getCenter(fab, myTargetView);
 
-                Animator animator =
+                animator =
                         ViewAnimationUtils.createCircularTransform(myTargetView, mySourceView, center[0], center[1], 0F, finalRadius);
 
                 animator.addListener(TransformFrameFragment.this);
 
                 animator.setInterpolator(new AccelerateDecelerateInterpolator());
                 animator.setDuration(1500);
+
                 animator.start();
                 state = !state;
             }
@@ -125,20 +127,18 @@ public class TransformFrameFragment extends Fragment implements Animator.Animato
     @Override
     public void onAnimationStart(Animator animator) {
         Log.d(TAG, "animation start");
-        myTargetView.setVisibility(View.VISIBLE);
         animationInProgress = true;
     }
 
     @Override
     public void onAnimationEnd(Animator animator) {
         Log.d(TAG, "animation end");
-        mySourceView.setVisibility(View.INVISIBLE);
         animationInProgress = false;
     }
 
     @Override
     public void onAnimationCancel(Animator animator) {
-
+        Log.d(TAG, "animation cancel");
     }
 
     @Override

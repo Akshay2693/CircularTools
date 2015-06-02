@@ -3,35 +3,22 @@ package hu.aut.utillib.circular.animation;
 import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
 import android.animation.ObjectAnimator;
-import android.annotation.TargetApi;
-import android.graphics.Rect;
-import android.os.Build;
 import android.view.View;
 
-import hu.aut.utillib.circular.widget.TransformFrameLayout;
+import java.lang.ref.WeakReference;
 
-import static android.os.Build.VERSION.SDK_INT;
-import static android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH;
-import static android.os.Build.VERSION_CODES.JELLY_BEAN_MR2;
-import static android.os.Build.VERSION_CODES.LOLLIPOP;
+import hu.aut.utillib.circular.widget.CircularFrameLayout;
 
 public class ViewAnimationUtils {
 
     private static final String CLIP_RADIUS = "RevealRadius";
-
-    private final static boolean LOLLIPOP_PLUS = SDK_INT >= LOLLIPOP;
+    public static final int AUTOMATIC = 0;
+    public static final int MANUAL = 1;
 
     /**
-     * Returns an Animator which can animate a clipping circle.
-     * <p/>
-     * Any shadow cast by the View will respect the circular clip from this animator.
-     * <p/>
-     * Only a single non-rectangular clip can be applied on a View at any time.
-     * Views clipped by a circular reveal animation take priority over
-     * {@link View#setClipToOutline(boolean) View Outline clipping}.
-     * <p/>
-     * Note that the animation returned here is a one-shot animation. It cannot
-     * be re-used, and once started it cannot be paused or resumed.
+     * Returns an ObjectAnimator which can animate a clipping circle for a reveal effect.
+     * The animated views visibility will change automatically.
+     * See {@link ViewAnimationUtils#createCircularReveal(View, int, int, float, float, int)}
      *
      * @param view        The View will be clipped to the animating circle.
      * @param centerX     The x coordinate of the center of the animating circle.
@@ -39,42 +26,28 @@ public class ViewAnimationUtils {
      * @param startRadius The starting radius of the animating circle.
      * @param endRadius   The ending radius of the animating circle.
      */
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public static Animator createCircularReveal(View view,
-                                                int centerX, int centerY,
-                                                float startRadius, float endRadius) {
-
-        if (!(view.getParent() instanceof CircularAnimator)) {
-            throw new IllegalArgumentException("View must be inside RevealFrameLayout or RevealLinearLayout.");
-        }
-
-        CircularAnimator revealLayout = (CircularAnimator) view.getParent();
-        revealLayout.setTarget(view);
-        revealLayout.setClipOutlines(true);
-        revealLayout.setCenter(centerX, centerY);
-        revealLayout.setRadius(startRadius, endRadius);
-
-        if (LOLLIPOP_PLUS) {
-            return android.view.ViewAnimationUtils.createCircularReveal(view, centerX, centerY, startRadius, endRadius);
-        }
-
-        ObjectAnimator reveal = ObjectAnimator.ofFloat(revealLayout, CLIP_RADIUS, startRadius, endRadius);
-        reveal.addListener(getRevealFinishListener(revealLayout, revealLayout.getTargetBounds()));
-
-        return reveal;
+    public static ObjectAnimator createCircularReveal(View view, int centerX, int centerY, float startRadius, float endRadius) {
+        return createCircularTransform(view, null, centerX, centerY, startRadius, endRadius, AUTOMATIC);
     }
 
     /**
-     * Returns an Animator which can animate a clipping circle over two views in the same parent.
-     * <p/>
-     * Any shadow cast by the View will respect the circular clip from this animator.
-     * <p/>
-     * Only a single non-rectangular clip can be applied on a View at any time.
-     * Views clipped by a circular reveal animation take priority over
-     * {@link View#setClipToOutline(boolean) View Outline clipping}.
-     * <p/>
-     * Note that the animation returned here is a one-shot animation. It cannot
-     * be re-used, and once started it cannot be paused or resumed.
+     * Returns an ObjectAnimator which can animate a clipping circle for a reveal effect.
+     *
+     * @param view        The View will be clipped to the animating circle.
+     * @param centerX     The x coordinate of the center of the animating circle.
+     * @param centerY     The y coordinate of the center of the animating circle.
+     * @param startRadius The starting radius of the animating circle.
+     * @param endRadius   The ending radius of the animating circle.
+     * @param mode        The behavior of the animation. If set to {@link ViewAnimationUtils#AUTOMATIC}
+     *                    the animated views visibility will change automatically,
+     *                    otherwise these properties won't be touched.
+     */
+    public static ObjectAnimator createCircularReveal(View view, int centerX, int centerY, float startRadius, float endRadius, int mode) {
+        return createCircularTransform(view, null, centerX, centerY, startRadius, endRadius, mode);
+    }
+
+    /**
+     * Returns an ObjectAnimator which can animate a clipping circle over two views in the same parent.
      *
      * @param target      The appearing View will be clipped to the animating circle.
      * @param source      The disappearing View will be inverse clipped to the animating circle.
@@ -83,12 +56,31 @@ public class ViewAnimationUtils {
      * @param startRadius The starting radius of the animating circle.
      * @param endRadius   The ending radius of the animating circle.
      */
-    public static Animator createCircularTransform(View target, View source, int centerX, int centerY, float startRadius, float endRadius) {
+    public static ObjectAnimator createCircularTransform(View target, View source, int centerX, int centerY, float startRadius, float endRadius) {
+        return createCircularTransform(target, source, centerX, centerY, startRadius, endRadius, AUTOMATIC);
+    }
 
-        //TODO check for nulls!
+    /**
+     * Returns an ObjectAnimator which can animate a clipping circle over two views in the same parent.
+     *
+     * @param target      The appearing View will be clipped to the animating circle.
+     * @param source      The disappearing View will be inverse clipped to the animating circle.
+     * @param centerX     The x coordinate of the center of the animating circle.
+     * @param centerY     The y coordinate of the center of the animating circle.
+     * @param startRadius The starting radius of the animating circle.
+     * @param endRadius   The ending radius of the animating circle.
+     * @param mode        The behavior of the animation. If set to {@link ViewAnimationUtils#AUTOMATIC}
+     *                    the animated views visibility will change automatically,
+     *                    otherwise these properties won't be touched.
+     */
+    public static ObjectAnimator createCircularTransform(View target, View source, int centerX, int centerY, float startRadius, float endRadius, int mode) {
 
-        if (target.getParent() != source.getParent()) {
-            throw new IllegalArgumentException("Target and source parent must be the same!");
+        if (target == null) {
+            throw new IllegalArgumentException("Target can't be null!");
+        } else if (source != null) {
+            if (target.getParent() != source.getParent()) {
+                throw new IllegalArgumentException("Target and source parent must be the same!");
+            }
         }
 
         if (!(target.getParent() instanceof TransformAnimator)) {
@@ -100,20 +92,30 @@ public class ViewAnimationUtils {
         transformLayout.setClipOutlines(true);
         transformLayout.setSource(source);
         transformLayout.setCenter(centerX, centerY);
-        transformLayout.setRadius(startRadius, endRadius);
-
-        Rect bounds = new Rect();
-        target.getHitRect(bounds);
 
         ObjectAnimator transform = ObjectAnimator.ofFloat(transformLayout, CLIP_RADIUS, startRadius, endRadius);
 
-        transform.addListener(getRevealFinishListener(transformLayout, bounds));
-
-        return transform;
+        if (mode == MANUAL) {
+            return transform;
+        } else {
+            if (source == null) {
+                transform.addListener(new RevealListener(target));
+            } else {
+                transform.addListener(new TransformListener(target, source));
+            }
+            return transform;
+        }
     }
 
 
-    //TODO javadoc
+    /**
+     * Computes the center of the clipping circle used by transform and reveal animations
+     * The result is relative to the target.
+     *
+     * @param origin The Origin of the effect (eg. pressed view)
+     * @param target Targeted view, that will be clipped
+     * @return x and y coordinates in an array, in that order
+     */
     public static int[] getCenter(View origin, View target) {
 
         //the top left corner of origin
@@ -126,7 +128,7 @@ public class ViewAnimationUtils {
 
         // get the center for the clipping circle for the view
         int[] targetPosition = new int[2];
-        TransformFrameLayout parent = ((TransformFrameLayout) target.getParent());
+        CircularFrameLayout parent = ((CircularFrameLayout) target.getParent());
         parent.getLocationOnScreen(targetPosition);
 
         int[] center = new int[2];
@@ -137,29 +139,24 @@ public class ViewAnimationUtils {
         return center;
     }
 
-    //TODO javadoc
+    /**
+     * Returns the square root of the sum of squares of its arguments, see {@link Math#hypot(double, double)}
+     */
     public static float hypo(int a, int b) {
         return (float) Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
     }
 
 
-    //TODO javadoc
-    static AnimatorListener getRevealFinishListener(CircularAnimator target, Rect bounds) {
-        if (SDK_INT >= JELLY_BEAN_MR2) {
-            return new CircularAnimator.RevealFinishedJellyBeanMr2(target, bounds);
-        } else if (SDK_INT >= ICE_CREAM_SANDWICH) {
-            return new CircularAnimator.RevealFinishedIceCreamSandwich(target, bounds);
-        } else {
-            return new CircularAnimator.RevealFinishedHoneycomb(target, bounds);
+    static class RevealListener implements AnimatorListener {
+        WeakReference<View> mTargetReference;
+
+        RevealListener(View target) {
+            mTargetReference = new WeakReference<>(target);
         }
-    }
-
-
-    static class SimpleAnimationListener implements AnimatorListener {
 
         @Override
         public void onAnimationStart(Animator animation) {
-
+            mTargetReference.get().setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -178,4 +175,17 @@ public class ViewAnimationUtils {
         }
     }
 
+    static class TransformListener extends RevealListener {
+        WeakReference<View> mSourceReference;
+
+        TransformListener(View target, View source) {
+            super(target);
+            mSourceReference = new WeakReference<>(source);
+        }
+
+        @Override
+        public void onAnimationEnd(Animator animation) {
+            mSourceReference.get().setVisibility(View.INVISIBLE);
+        }
+    }
 }

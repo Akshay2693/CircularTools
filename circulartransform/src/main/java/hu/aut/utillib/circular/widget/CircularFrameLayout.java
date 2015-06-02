@@ -3,16 +3,15 @@ package hu.aut.utillib.circular.widget;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Path;
-import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
 
 import hu.aut.utillib.circular.animation.TransformAnimator;
 
-public class TransformFrameLayout extends FrameLayout implements TransformAnimator {
+public class CircularFrameLayout extends FrameLayout implements TransformAnimator {
 
-    public static final String TAG = TransformFrameLayout.class.getSimpleName();
+    public static final String TAG = CircularFrameLayout.class.getSimpleName();
 
     Path mRevealPath;
 
@@ -25,21 +24,16 @@ public class TransformFrameLayout extends FrameLayout implements TransformAnimat
     View mTarget;
     View mSource;
 
-    float mStartRadius;
-    float mEndRadius;
 
-    final Rect mTargetBounds = new Rect();
-
-
-    public TransformFrameLayout(Context context) {
+    public CircularFrameLayout(Context context) {
         this(context, null);
     }
 
-    public TransformFrameLayout(Context context, AttributeSet attrs) {
+    public CircularFrameLayout(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public TransformFrameLayout(Context context, AttributeSet attrs, int defStyle) {
+    public CircularFrameLayout(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         mRevealPath = new Path();
     }
@@ -78,7 +72,7 @@ public class TransformFrameLayout extends FrameLayout implements TransformAnimat
     }
 
     /**
-     * Circle radius size
+     * Sets the clipping circle radius size. Radius won't be smaller than 1F
      */
     @Override
     public void setRevealRadius(float radius) {
@@ -87,32 +81,11 @@ public class TransformFrameLayout extends FrameLayout implements TransformAnimat
     }
 
     /**
-     * Circle radius size
+     * Returns the clipping circle radius size
      */
     @Override
     public float getRevealRadius() {
         return mRadius;
-    }
-
-
-    /**
-     * Reset (after animation)
-     */
-    @Override
-    public void setupStartValues() {
-        mClipOutlines = false;
-        mRadius = 1F;
-    }
-
-    @Override
-    public void setRadius(float start, float end) {
-        mStartRadius = start;
-        mEndRadius = end;
-    }
-
-    @Override
-    public Rect getTargetBounds() {
-        return mTargetBounds;
     }
 
     @Override
