@@ -1,4 +1,4 @@
-package io.codetail.widget;
+package hu.aut.utillib.circular.widget;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -8,9 +8,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import io.codetail.animation.SupportAnimator;
-import io.codetail.animation.TransformAnimator;
-import io.codetail.animation.TransformViewAnimationUtils;
+import hu.aut.utillib.circular.animation.TransformAnimator;
 
 public class TransformFrameLayout extends FrameLayout implements TransformAnimator {
 
@@ -48,7 +46,6 @@ public class TransformFrameLayout extends FrameLayout implements TransformAnimat
 
     /**
      * Animation target to appear
-     *
      */
     @Override
     public void setTarget(View view) {
@@ -57,7 +54,6 @@ public class TransformFrameLayout extends FrameLayout implements TransformAnimat
 
     /**
      * Animation target to disappear
-     *
      */
     @Override
     public void setSource(View view) {
@@ -66,7 +62,6 @@ public class TransformFrameLayout extends FrameLayout implements TransformAnimat
 
     /**
      * Epicenter of animation circle reveal
-     *
      */
     @Override
     public void setCenter(int centerX, int centerY) {
@@ -76,7 +71,6 @@ public class TransformFrameLayout extends FrameLayout implements TransformAnimat
 
     /**
      * Flag that animation is enabled
-     *
      */
     @Override
     public void setClipOutlines(boolean clip) {
@@ -85,7 +79,6 @@ public class TransformFrameLayout extends FrameLayout implements TransformAnimat
 
     /**
      * Circle radius size
-     *
      */
     @Override
     public void setRevealRadius(float radius) {
@@ -95,13 +88,16 @@ public class TransformFrameLayout extends FrameLayout implements TransformAnimat
 
     /**
      * Circle radius size
-     *
      */
     @Override
     public float getRevealRadius() {
         return mRadius;
     }
 
+
+    /**
+     * Reset (after animation)
+     */
     @Override
     public void setupStartValues() {
         mClipOutlines = false;
@@ -118,13 +114,6 @@ public class TransformFrameLayout extends FrameLayout implements TransformAnimat
     public Rect getTargetBounds() {
         return mTargetBounds;
     }
-
-    @Override
-    public SupportAnimator startReverseAnimation() {
-        return TransformViewAnimationUtils.createCircularTransform(mTarget, mSource, mCenterX, mCenterY,
-                mEndRadius, mStartRadius);
-    }
-
 
     @Override
     protected boolean drawChild(Canvas canvas, View child, long drawingTime) {

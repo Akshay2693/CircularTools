@@ -1,6 +1,7 @@
 package hu.gordon.circulardemo.fragments;
 
 
+import android.animation.Animator;
 import android.app.Activity;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -15,15 +16,14 @@ import android.widget.ImageView;
 
 import com.shamanland.fab.FloatingActionButton;
 
+import hu.aut.utillib.circular.animation.ViewAnimationUtils;
 import hu.gordon.circulardemo.MainActivity;
 import hu.gordon.circulardemo.R;
-import io.codetail.animation.SupportAnimator;
-import io.codetail.animation.TransformViewAnimationUtils;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TransformFrameFragment extends Fragment implements SupportAnimator.AnimatorListener {
+public class TransformFrameFragment extends Fragment implements Animator.AnimatorListener {
 
     public static final String TAG = TransformFrameFragment.class.getSimpleName();
 
@@ -99,11 +99,11 @@ public class TransformFrameFragment extends Fragment implements SupportAnimator.
                 // Pre-calculations
                 //
                 // get the final radius for the clipping circle
-                float finalRadius = TransformViewAnimationUtils.hypo(screenWidth, screenHeight);
-                int[] center = TransformViewAnimationUtils.getCenter(fab,myTargetView);
+                float finalRadius = ViewAnimationUtils.hypo(screenWidth, screenHeight);
+                int[] center = ViewAnimationUtils.getCenter(fab,myTargetView);
 
-                SupportAnimator animator =
-                        TransformViewAnimationUtils.createCircularTransform(myTargetView, mySourceView, center[0], center[1], 0F, finalRadius);
+                Animator animator =
+                        ViewAnimationUtils.createCircularTransform(myTargetView, mySourceView, center[0], center[1], 0F, finalRadius);
 
                 animator.addListener(TransformFrameFragment.this);
 
@@ -123,26 +123,26 @@ public class TransformFrameFragment extends Fragment implements SupportAnimator.
     }
 
     @Override
-    public void onAnimationStart() {
+    public void onAnimationStart(Animator animator) {
         Log.d(TAG, "animation start");
         myTargetView.setVisibility(View.VISIBLE);
         animationInProgress = true;
     }
 
     @Override
-    public void onAnimationEnd() {
+    public void onAnimationEnd(Animator animator) {
         Log.d(TAG, "animation end");
         mySourceView.setVisibility(View.INVISIBLE);
         animationInProgress = false;
     }
 
     @Override
-    public void onAnimationCancel() {
+    public void onAnimationCancel(Animator animator) {
 
     }
 
     @Override
-    public void onAnimationRepeat() {
+    public void onAnimationRepeat(Animator animator) {
 
     }
 }
