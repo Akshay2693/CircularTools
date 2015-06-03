@@ -25,10 +25,6 @@ public class RevealFragment extends Fragment {
     private FloatingActionButton fab;
     private CardView myView;
 
-    public RevealFragment() {
-        // Required empty public constructor
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

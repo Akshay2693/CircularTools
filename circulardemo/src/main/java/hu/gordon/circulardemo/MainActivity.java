@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         FragmentManager fm = getSupportFragmentManager();
-        fm.beginTransaction().add(R.id.fragment, new RevealFragment()).commit();
+        fm.beginTransaction().add(R.id.fragment, new RevealFragment(), RevealFragment.TAG).commit();
     }
 
     @Override
@@ -62,10 +62,10 @@ public class MainActivity extends AppCompatActivity {
 
                         switch (menuItem.getItemId()) {
                             case R.id.navigation_item_1:
-                                fm.beginTransaction().add(R.id.fragment, new RevealFragment()).commit();
+                                fm.beginTransaction().replace(R.id.fragment, new RevealFragment()).commit();
                                 break;
                             case R.id.navigation_item_2:
-                                fm.beginTransaction().add(R.id.fragment, new TransformFragment()).commit();
+                                fm.beginTransaction().replace(R.id.fragment, new TransformFragment()).commit();
                                 break;
                         }
 
