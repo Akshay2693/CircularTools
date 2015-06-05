@@ -1,93 +1,90 @@
-CircularTransform
-based on https://github.com/ozodrukh/CircularReveal
-Readme and code is under development.
+CircularTools
 ==============
 
-Lollipop ViewAnimationUtils.createCircularReveal for everyone 2.3+
+Readme and code is under development.
 
-<img src="http://7sbnrp.com1.z0.glb.clouddn.com/lollipop2-CircularReveal.gif" />
+Circle based animations for Android (min. API 11)
 
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=_vVpwzYb4Dg
-" target="_blank">Yotube Video <br /> <img src="http://img.youtube.com/vi/_vVpwzYb4Dg/0.jpg" 
-alt="Ripple DEMO" width="320" height="240" border="10" /></a>
+Currently implemented:
+- Circular reveal
+- Circular transform
+
+Planned:
+- Radial action
+
+**Reveal:**
+<a href="https://youtu.be/g83nwbi33c0">YouTube</a>
+
+<img src="http://i.imgur.com/pT0UqHA.gif" alt="Reveal DEMO" width="240" height="400" border="10" />
+
+**Transform:**
+<a href="https://youtu.be/96eBHwWxTiA">YouTube</a>
+
+<img src="http://i.imgur.com/QeaoLpD.gif" alt="Transform DEMO" width="240" height="400" border="10" />
+
 
 Sample
 ======
-<a href="https://github.com/ozodrukh/CircularReveal/releases"> Sample & .aar file </a>
+<a href="https://github.com/Gordi90/CircularTools/releases"> //TODO releases</a>
 
 Note
-====
+======
+- it's a fork from https://github.com/ozodrukh/CircularReveal/
+- independent from Jake Wharton's NineOldsAndroid
+- the returned `animator` is an `ObjectAnimator` so you can reverse it.
+ 
+Limitations
+======
+- it will never use the native `ViewAnimationUtils.createCircularReveal` method
+- hardware acceleration cannot be used in every situation. See table below:
 
-depends from Jake Wharton's NineOldsAndroid, or use my modifed version (included auto cancel)
+|           | API 11-17 | API 18-19 |   19+    |
+|-----------|-----------|-----------|----------|
+|   **Reveal**  |  Software |  Hardware | Software |
+| **Transform** |  Software |  Hardware | Hardware |
 
 Using
 ======
 
-Use regular `RevealFrameLayout` & `RevealLinearLayout` don't worry, only target will be clipped :)
+For reveal and transform you have to wrap your animated views with a `CircularFrameLayout`.
 
 ```xml
-<io.codetail.widget.RevealFrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<hu.aut.utillib.circular.widget.CircularFrameLayout
+        android:id="@+id/simple_reveal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     
-    <!-- Put more views here if you want, it's stock frame layout  -->
+    <!-- Put any child views here if you want, it's stock frame layout  -->
 
-    <android.support.v7.widget.CardView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/awesome_card"
-        style="@style/CardView"
-        app:cardBackgroundColor="@color/material_deep_teal_500"
-        app:cardElevation="2dp"
-        app:cardPreventCornerOverlap="false"
-        app:cardUseCompatPadding="true"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:layout_gravity="center_horizontal"
-        />
-
-</io.codetail.widget.RevealFrameLayout>
+</hu.aut.utillib.circular.widget.CircularFrameLayout>
 ```
-
+**Transform:**
 ```java
+//myTargetView & mySourceView are children in the CircularFrameLayout
+float finalRadius = CircularAnimationUtils.hypo(width, height);
 
-    View myView = findView(R.id.awesome_card);
+//getCenter computes from 2 view: One is touched, and one will be animated, but you can use anything for center
+int[] center = CircularAnimationUtils.getCenter(fab, myTargetView);
 
-    // get the center for the clipping circle
-    int cx = (myView.getLeft() + myView.getRight()) / 2;
-    int cy = (myView.getTop() + myView.getBottom()) / 2;
-
-    // get the final radius for the clipping circle
-    int finalRadius = Math.max(myView.getWidth(), myView.getHeight());
-
-    SupportAnimator animator =
-            ViewAnimationUtils.createCircularReveal(myView, cx, cy, 0, finalRadius);
-    animator.setInterpolator(new AccelerateDecelerateInterpolator());
-    animator.setDuration(1500);
-    animator.start();
+animator = CircularAnimationUtils.createCircularTransform(myTargetView, mySourceView, center[0], center[1], 0F, finalRadius);
+animator.setInterpolator(new AccelerateDecelerateInterpolator());
+animator.setDuration(1500);
+animator.start();
 
 ```
 
-####API that need to mention 
-
-#####Cancel it! 
-
+**Reveal:**
 ```java
+//myView is a child in the CircularFrameLayout
+float finalRadius = CircularAnimationUtils.hypo(width, height);
 
-   SupportAnimator animator = ... ;
-   animator.cancel();         
+//getCenter computes from 2 view: One is touched, and one will be animated, but you can use anything for center
+int[] center = CircularAnimationUtils.getCenter(fab, myView);
 
-```
-
-#####Reverse it!
-
-```java
-
-   SupportAnimator animator = ... ;
-   animator = animator.reverse(); // override with new one
+animator = CircularAnimationUtils.createCircularReveal(myView, center[0], center[1], 0, finalRadius);
+animator.setInterpolator(new AccelerateDecelerateInterpolator());
+animator.setDuration(1500);
+animator.start();      
 
 ```
 
@@ -110,7 +107,7 @@ then add a library dependency
 
 ```groovy
 	dependencies {
-	    compile 'com.github.ozodrukh:CircularReveal:1.1.0@aar'
+	    compile '//TODO'
 	}
 ```
 
@@ -120,7 +117,7 @@ License
 
     The MIT License (MIT)
 
-    Copyright (c) 2014 Abdullaev Ozodrukh
+    Copyright (c) 2015 AutSoft Kft.
     
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
