@@ -2,17 +2,24 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="192dp"
-    android:background="@color/primary"
+    android:background="?attr/colorPrimary"
     android:padding="16dp"
     android:theme="@style/ThemeOverlay.AppCompat.Dark"
     android:orientation="vertical"
     android:gravity="bottom">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/autsoft_white"
+        android:layout_marginBottom="16dp"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Circular Demo"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
-        android:textColor="@color/primary_text" />
+        android:textColor="@color/card_text" />
 
 </LinearLayout>
