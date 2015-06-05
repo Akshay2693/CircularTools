@@ -68,7 +68,11 @@ public class RevealFragment extends Fragment {
                 // Pre-calculations
                 //
                 // get the final radius for the clipping circle
-                float finalRadius = ViewAnimationUtils.hypo(screenWidth, screenHeight);
+
+                int[] myViewLocation = new int[2];
+                myView.getLocationInWindow(myViewLocation);
+
+                float finalRadius = ViewAnimationUtils.hypo(screenWidth-myViewLocation[0], screenHeight-myViewLocation[1]);
                 int[] center = ViewAnimationUtils.getCenter(fab, myView);
 
                 ObjectAnimator animator =

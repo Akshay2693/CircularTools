@@ -96,7 +96,10 @@ public class TransformFragment extends Fragment implements Animator.AnimatorList
                 // Pre-calculations
                 //
                 // get the final radius for the clipping circle
-                float finalRadius = ViewAnimationUtils.hypo(screenWidth, screenHeight);
+                int[] myTargetViewLocation = new int[2];
+                myTargetView.getLocationInWindow(myTargetViewLocation);
+
+                float finalRadius = ViewAnimationUtils.hypo(screenWidth-myTargetViewLocation[0], screenHeight-myTargetViewLocation[1]);
                 int[] center = ViewAnimationUtils.getCenter(fab, myTargetView);
 
                 animator =
