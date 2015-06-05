@@ -3,6 +3,7 @@ package hu.aut.utillib.circular.animation;
 import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
 import android.animation.ObjectAnimator;
+import android.os.Build;
 import android.view.View;
 
 import java.lang.ref.WeakReference;
@@ -84,7 +85,7 @@ public class ViewAnimationUtils {
         }
 
         if (!(target.getParent() instanceof CircularAnimator)) {
-            throw new IllegalArgumentException("View must be inside TransformFrameLayout");
+            throw new IllegalArgumentException("View must be inside CircularFrameLayout");
         }
 
         CircularAnimator transformLayout = (CircularAnimator) target.getParent();
@@ -95,16 +96,13 @@ public class ViewAnimationUtils {
 
         ObjectAnimator transform = ObjectAnimator.ofFloat(transformLayout, CLIP_RADIUS, startRadius, endRadius);
 
-        if (mode == MANUAL) {
-            return transform;
+        if (source == null) {
+            transform.addListener(new RevealListener(target, mode));
         } else {
-            if (source == null) {
-                transform.addListener(new RevealListener(target));
-            } else {
-                transform.addListener(new TransformListener(target, source));
-            }
-            return transform;
+            transform.addListener(new TransformListener(target, source, mode));
         }
+
+        return transform;
     }
 
 
@@ -146,17 +144,36 @@ public class ViewAnimationUtils {
         return (float) Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
     }
 
+    public static boolean isHWAsupportedForReveal() {
+        return (Build.VERSION.SDK_INT == Build.VERSION_CODES.JELLY_BEAN_MR2 || Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT);
+    }
+
+    public static boolean isHWAsupportedForTransform() {
+        return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2);
+    }
+
 
     static class RevealListener implements AnimatorListener {
-        WeakReference<View> mTargetReference;
+        int originalLayerType;
+        int mode;
+        WeakReference<View> targetReference;
+        WeakReference<CircularFrameLayout> parentReference;
 
-        RevealListener(View target) {
-            mTargetReference = new WeakReference<>(target);
+        RevealListener(View target, int mode) {
+            targetReference = new WeakReference<>(target);
+            parentReference = new WeakReference<>((CircularFrameLayout) targetReference.get().getParent());
+            originalLayerType = ((CircularFrameLayout)target.getParent()).getLayerType();
+            this.mode = mode;
         }
 
         @Override
         public void onAnimationStart(Animator animation) {
-            mTargetReference.get().setVisibility(View.VISIBLE);
+            if (!isHWAsupportedForReveal()) {
+                parentReference.get().setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+            }
+            if(mode == AUTOMATIC) {
+                targetReference.get().setVisibility(View.VISIBLE);
+            }
         }
 
         @Override
@@ -166,7 +183,9 @@ public class ViewAnimationUtils {
 
         @Override
         public void onAnimationCancel(Animator animation) {
-
+            if (!isHWAsupportedForReveal()) {
+                parentReference.get().setLayerType(originalLayerType, null);
+            }
         }
 
         @Override
@@ -176,16 +195,33 @@ public class ViewAnimationUtils {
     }
 
     static class TransformListener extends RevealListener {
-        WeakReference<View> mSourceReference;
+        WeakReference<View> sourceReference;
 
-        TransformListener(View target, View source) {
-            super(target);
-            mSourceReference = new WeakReference<>(source);
+        TransformListener(View target, View source, int mode) {
+            super(target,mode);
+            sourceReference = new WeakReference<>(source);
+        }
+
+
+        @Override
+        public void onAnimationStart(Animator animation) {
+            if (!isHWAsupportedForTransform()) {
+                parentReference.get().setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+            }
+            if(mode == AUTOMATIC) {
+                targetReference.get().setVisibility(View.VISIBLE);
+            }
         }
 
         @Override
         public void onAnimationEnd(Animator animation) {
-            mSourceReference.get().setVisibility(View.INVISIBLE);
+            if (!isHWAsupportedForTransform()) {
+                parentReference.get().setLayerType(originalLayerType, null);
+            }
+            if(mode == AUTOMATIC) {
+                sourceReference.get().setVisibility(View.INVISIBLE);
+            }
         }
     }
+
 }
