@@ -52,12 +52,12 @@ For reveal and transform you have to wrap your animated views with a `CircularFr
 **Transform:**
 ```java
 //myTargetView & mySourceView are children in the CircularFrameLayout
-float finalRadius = ViewAnimationUtils.hypo(width, height);
+float finalRadius = CircularAnimationUtils.hypo(width, height);
 
 //getCenter computes from 2 view: One is touched, and one will be animated, but you can use anything for center
-int[] center = ViewAnimationUtils.getCenter(fab, myTargetView);
+int[] center = CircularAnimationUtils.getCenter(fab, myTargetView);
 
-animator = ViewAnimationUtils.createCircularTransform(myTargetView, mySourceView, center[0], center[1], 0F, finalRadius);
+animator = CircularAnimationUtils.createCircularTransform(myTargetView, mySourceView, center[0], center[1], 0F, finalRadius);
 animator.setInterpolator(new AccelerateDecelerateInterpolator());
 animator.setDuration(1500);
 animator.start();
@@ -67,12 +67,12 @@ animator.start();
 **Reveal:**
 ```java
 //myView is a child in the CircularFrameLayout
-float finalRadius = ViewAnimationUtils.hypo(width, height);
+float finalRadius = CircularAnimationUtils.hypo(width, height);
 
 //getCenter computes from 2 view: One is touched, and one will be animated, but you can use anything for center
-int[] center = ViewAnimationUtils.getCenter(fab, myView);
+int[] center = CircularAnimationUtils.getCenter(fab, myView);
 
-animator = ViewAnimationUtils.createCircularReveal(myView, center[0], center[1], 0, finalRadius);
+animator = CircularAnimationUtils.createCircularReveal(myView, center[0], center[1], 0, finalRadius);
 animator.setInterpolator(new AccelerateDecelerateInterpolator());
 animator.setDuration(1500);
 animator.start();      
