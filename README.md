@@ -25,7 +25,7 @@ Planned:
 
 Sample
 ======
-<a href="https://github.com/Gordi90/CircularTools/releases"> //TODO releases</a>
+<a href="https://github.com/Gordi90/CircularTools/releases">Demo in the source and releases</a>
 
 Note
 ======
@@ -107,7 +107,7 @@ then add a library dependency
 
 ```groovy
 	dependencies {
-	    compile '//TODO'
+	        compile 'com.github.Gordi90:CircularTools:1.0'
 	}
 ```
 
