@@ -12,7 +12,16 @@ Currently implemented:
 Planned:
 - Radial action
 
-//TODO gifs
+**Reveal:**
+<a href="https://youtu.be/g83nwbi33c0">YouTube</a>
+
+<img src="http://i.imgur.com/pT0UqHA.gif" alt="Reveal DEMO" width="240" height="400" border="10" />
+
+**Transform:**
+<a href="https://youtu.be/96eBHwWxTiA">YouTube</a>
+
+<img src="http://i.imgur.com/QeaoLpD.gif" alt="Transform DEMO" width="240" height="400" border="10" />
+
 
 Sample
 ======
@@ -26,7 +35,7 @@ Note
  
 Limitations
 ======
-- it will never use the native `ViewAnimationUtils.createCircularReveal` 
+- it will never use the native `ViewAnimationUtils.createCircularReveal` method
 - hardware acceleration cannot be used in every situation. See table below:
 
 |           | API 11-17 | API 18-19 |   19+    |
