@@ -10,7 +10,7 @@ import java.lang.ref.WeakReference;
 
 import hu.aut.utillib.circular.widget.CircularFrameLayout;
 
-public class ViewAnimationUtils {
+public class CircularAnimationUtils {
 
     private static final String CLIP_RADIUS = "RevealRadius";
     public static final int AUTOMATIC = 0;
@@ -19,7 +19,7 @@ public class ViewAnimationUtils {
     /**
      * Returns an ObjectAnimator which can animate a clipping circle for a reveal effect.
      * The animated views visibility will change automatically.
-     * See {@link ViewAnimationUtils#createCircularReveal(View, int, int, float, float, int)}
+     * See {@link CircularAnimationUtils#createCircularReveal(View, int, int, float, float, int)}
      *
      * @param view        The View will be clipped to the animating circle.
      * @param centerX     The x coordinate of the center of the animating circle.

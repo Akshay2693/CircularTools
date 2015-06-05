@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
 
-import hu.aut.utillib.circular.animation.ViewAnimationUtils;
+import hu.aut.utillib.circular.animation.CircularAnimationUtils;
 import hu.gordon.circulardemo.R;
 
 /**
@@ -99,11 +99,11 @@ public class TransformFragment extends Fragment implements Animator.AnimatorList
                 int[] myTargetViewLocation = new int[2];
                 myTargetView.getLocationInWindow(myTargetViewLocation);
 
-                float finalRadius = ViewAnimationUtils.hypo(screenWidth-myTargetViewLocation[0], screenHeight-myTargetViewLocation[1]);
-                int[] center = ViewAnimationUtils.getCenter(fab, myTargetView);
+                float finalRadius = CircularAnimationUtils.hypo(screenWidth - myTargetViewLocation[0], screenHeight - myTargetViewLocation[1]);
+                int[] center = CircularAnimationUtils.getCenter(fab, myTargetView);
 
                 animator =
-                        ViewAnimationUtils.createCircularTransform(myTargetView, mySourceView, center[0], center[1], 0F, finalRadius);
+                        CircularAnimationUtils.createCircularTransform(myTargetView, mySourceView, center[0], center[1], 0F, finalRadius);
 
                 animator.addListener(TransformFragment.this);
 

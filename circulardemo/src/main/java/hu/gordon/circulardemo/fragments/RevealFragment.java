@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 
-import hu.aut.utillib.circular.animation.ViewAnimationUtils;
+import hu.aut.utillib.circular.animation.CircularAnimationUtils;
 import hu.gordon.circulardemo.R;
 
 public class RevealFragment extends Fragment {
@@ -72,11 +72,11 @@ public class RevealFragment extends Fragment {
                 int[] myViewLocation = new int[2];
                 myView.getLocationInWindow(myViewLocation);
 
-                float finalRadius = ViewAnimationUtils.hypo(screenWidth-myViewLocation[0], screenHeight-myViewLocation[1]);
-                int[] center = ViewAnimationUtils.getCenter(fab, myView);
+                float finalRadius = CircularAnimationUtils.hypo(screenWidth - myViewLocation[0], screenHeight - myViewLocation[1]);
+                int[] center = CircularAnimationUtils.getCenter(fab, myView);
 
                 ObjectAnimator animator =
-                        ViewAnimationUtils.createCircularReveal(myView, center[0], center[1], 0, finalRadius);
+                        CircularAnimationUtils.createCircularReveal(myView, center[0], center[1], 0, finalRadius);
 
                 animator.setInterpolator(new AccelerateDecelerateInterpolator());
                 animator.setDuration(1500);
