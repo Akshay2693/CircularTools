@@ -12,15 +12,9 @@ Currently implemented:
 Planned:
 - <a href="http://material-design.storage.googleapis.com/videos/animation-responsive-interation-radialReact-example_large_xhdpi.webm">Radial action</a>
 
-**Reveal:**
-<a href="https://youtu.be/g83nwbi33c0">YouTube</a>
-
-<img src="http://i.imgur.com/pT0UqHA.gif" alt="Reveal DEMO" width="240" height="400" border="10" />
-
-**Transform:**
-<a href="https://youtu.be/96eBHwWxTiA">YouTube</a>
-
-<img src="http://i.imgur.com/QeaoLpD.gif" alt="Transform DEMO" width="240" height="400" border="10" />
+|**Reveal:**<a href="https://youtu.be/g83nwbi33c0">YouTube</a>|**Transform:**<a href="https://youtu.be/96eBHwWxTiA">YouTube</a>|
+|---------------|-----------|
+|<img src="http://i.imgur.com/pT0UqHA.gif" alt="Reveal DEMO" width="240" height="400" border="10" />|<img src="http://i.imgur.com/QeaoLpD.gif" alt="Transform DEMO" width="240" height="400" border="10" />|
 
 
 Sample
