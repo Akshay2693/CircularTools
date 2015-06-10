@@ -10,7 +10,7 @@ Currently implemented:
 - Circular transform
 
 Planned:
-- Radial action
+- <a href="http://material-design.storage.googleapis.com/videos/animation-responsive-interation-radialReact-example_large_xhdpi.webm">Radial action</a>
 
 **Reveal:**
 <a href="https://youtu.be/g83nwbi33c0">YouTube</a>
@@ -24,17 +24,17 @@ Planned:
 
 
 Sample
-======
-<a href="https://github.com/Gordi90/CircularTools/releases"> //TODO releases</a>
+------
+<a href="https://github.com/Gordi90/CircularTools/releases">Demo in the source and releases</a>
 
 Note
-======
+-----
 - it's a fork from https://github.com/ozodrukh/CircularReveal/
 - independent from Jake Wharton's NineOldsAndroid
 - the returned `animator` is an `ObjectAnimator` so you can reverse it.
  
 Limitations
-======
+-----------
 - it will never use the native `ViewAnimationUtils.createCircularReveal` method
 - hardware acceleration cannot be used in every situation. See table below:
 
@@ -43,8 +43,8 @@ Limitations
 |   **Reveal**  |  Software |  Hardware | Software |
 | **Transform** |  Software |  Hardware | Hardware |
 
-Using
-======
+Usage
+------
 
 For reveal and transform you have to wrap your animated views with a `CircularFrameLayout`.
 
@@ -107,7 +107,7 @@ then add a library dependency
 
 ```groovy
 	dependencies {
-	    compile '//TODO'
+	        compile 'com.github.Gordi90:CircularTools:1.0'
 	}
 ```
 
