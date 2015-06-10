@@ -36,12 +36,15 @@ Note
 Limitations
 -----------
 - it will never use the native `ViewAnimationUtils.createCircularReveal` method
+- currently there is an issue: views with elevation cannot be animated correctly on Lollipop and above.
+	- workaround A: set the LayerType of the target (or source) view to LayerType.SOFTWARE
+	- workaround B: wrap your target or (source) view with a simple layout, without elevation, and animate that. Demo reveal uses this method.
 - hardware acceleration cannot be used in every situation. See table below:
 
-|           | API 11-17 | API 18-19 |   19+    |
-|-----------|-----------|-----------|----------|
-|   **Reveal**  |  Software |  Hardware | Software |
-| **Transform** |  Software |  Hardware | Hardware |
+|               | API 11-17 |  API 18+  |
+|---------------|-----------|-----------|
+|   **Reveal**  |  Software |  Hardware |
+| **Transform** |  Software |  Hardware |
 
 Usage
 ------
