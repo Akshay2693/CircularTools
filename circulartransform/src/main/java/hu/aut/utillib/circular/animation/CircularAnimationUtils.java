@@ -144,11 +144,7 @@ public class CircularAnimationUtils {
         return (float) Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
     }
 
-    public static boolean isHWAsupportedForReveal() {
-        return (Build.VERSION.SDK_INT == Build.VERSION_CODES.JELLY_BEAN_MR2 || Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT);
-    }
-
-    public static boolean isHWAsupportedForTransform() {
+    public static boolean isHWAsupported() {
         return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2);
     }
 
@@ -168,7 +164,7 @@ public class CircularAnimationUtils {
 
         @Override
         public void onAnimationStart(Animator animation) {
-            if (!isHWAsupportedForReveal()) {
+            if (!isHWAsupported()) {
                 parentReference.get().setLayerType(View.LAYER_TYPE_SOFTWARE, null);
             }
             if(mode == AUTOMATIC) {
@@ -183,7 +179,7 @@ public class CircularAnimationUtils {
 
         @Override
         public void onAnimationCancel(Animator animation) {
-            if (!isHWAsupportedForReveal()) {
+            if (!isHWAsupported()) {
                 parentReference.get().setLayerType(originalLayerType, null);
             }
         }
@@ -205,7 +201,7 @@ public class CircularAnimationUtils {
 
         @Override
         public void onAnimationStart(Animator animation) {
-            if (!isHWAsupportedForTransform()) {
+            if (!isHWAsupported()) {
                 parentReference.get().setLayerType(View.LAYER_TYPE_SOFTWARE, null);
             }
             if(mode == AUTOMATIC) {
@@ -215,7 +211,7 @@ public class CircularAnimationUtils {
 
         @Override
         public void onAnimationEnd(Animator animation) {
-            if (!isHWAsupportedForTransform()) {
+            if (!isHWAsupported()) {
                 parentReference.get().setLayerType(originalLayerType, null);
             }
             if(mode == AUTOMATIC) {

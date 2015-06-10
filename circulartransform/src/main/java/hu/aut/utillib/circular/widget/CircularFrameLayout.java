@@ -3,6 +3,7 @@ package hu.aut.utillib.circular.widget;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Path;
+import android.graphics.Region;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.View;
@@ -92,24 +93,23 @@ public class CircularFrameLayout extends FrameLayout implements CircularAnimator
     protected boolean drawChild(@NonNull Canvas canvas, @NonNull View child, long drawingTime) {
         if (mClipOutlines && (child == mTarget || child == mSource)) {
 
-            final int state = canvas.save();
+            canvas.save();
 
             mRevealPath.reset();
             mRevealPath.addCircle(mCenterX, mCenterY, mRadius, Path.Direction.CW);
 
             if (child == mTarget) {
                 //appearing
-                mRevealPath.setFillType(Path.FillType.EVEN_ODD);
+                canvas.clipPath(mRevealPath, Region.Op.INTERSECT);
             } else {
                 //disappearing
-                mRevealPath.setFillType(Path.FillType.INVERSE_EVEN_ODD);
+                canvas.clipPath(mRevealPath, Region.Op.DIFFERENCE);
             }
 
-            canvas.clipPath(mRevealPath);
 
             boolean isInvalided = super.drawChild(canvas, child, drawingTime);
 
-            canvas.restoreToCount(state);
+            canvas.restore();
 
             return isInvalided;
         }
