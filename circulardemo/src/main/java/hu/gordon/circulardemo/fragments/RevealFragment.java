@@ -23,7 +23,7 @@ public class RevealFragment extends Fragment {
     private int screenWidth;
     private int screenHeight;
     private FloatingActionButton fab;
-    private CardView myView;
+    private View myView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,7 +48,7 @@ public class RevealFragment extends Fragment {
             screenHeight = display.getHeight();
         }
 
-        myView = (CardView) view.findViewById(R.id.card);
+        myView = view.findViewById(R.id.linear);
         myView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
