@@ -104,7 +104,7 @@ then add a library dependency
 
 ```groovy
 	dependencies {
-	        compile 'com.github.Gordi90:CircularTools:1.0'
+	        compile 'com.github.Gordi90:CircularTools:1.0.1'
 	}
 ```
 
