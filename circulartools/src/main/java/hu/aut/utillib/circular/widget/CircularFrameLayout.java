@@ -39,20 +39,23 @@ public class CircularFrameLayout extends FrameLayout implements CircularAnimator
         mRevealPath = new Path();
     }
 
+
     /**
-     * Animation target to appear
+     * Reference the target of circular animation to appear
+     *
+     * @param target View to clip outlines
      */
-    @Override
-    public void setTarget(View view) {
-        mTarget = view;
+    public void setTarget(View target) {
+        mTarget = target;
     }
 
     /**
-     * Animation target to disappear
+     * Reference the target of circular animation to disappear
+     *
+     * @param source View to clip outlines
      */
-    @Override
-    public void setSource(View view) {
-        mSource = view;
+    public void setSource(View source) {
+        mSource = source;
     }
 
     /**
@@ -65,18 +68,19 @@ public class CircularFrameLayout extends FrameLayout implements CircularAnimator
     }
 
     /**
-     * Flag that animation is enabled
+     * Flag that animation is enabled (so the view should use the clipping)
+     * Clipping won't work if it's not set to true
      */
     @Override
-    public void setClipOutlines(boolean clip) {
-        mClipOutlines = clip;
+    public void setAnimated(boolean isAnimated) {
+        mClipOutlines = isAnimated;
     }
 
     /**
      * Sets the clipping circle radius size. Radius won't be smaller than 1F
      */
     @Override
-    public void setRevealRadius(float radius) {
+    public void setRadius(float radius) {
         mRadius = Math.max(1F, radius);
         invalidate();
     }
@@ -85,7 +89,7 @@ public class CircularFrameLayout extends FrameLayout implements CircularAnimator
      * Returns the clipping circle radius size
      */
     @Override
-    public float getRevealRadius() {
+    public float getRadius() {
         return mRadius;
     }
 
@@ -106,11 +110,8 @@ public class CircularFrameLayout extends FrameLayout implements CircularAnimator
                 canvas.clipPath(mRevealPath, Region.Op.DIFFERENCE);
             }
 
-
             boolean isInvalided = super.drawChild(canvas, child, drawingTime);
-
             canvas.restore();
-
             return isInvalided;
         }
 

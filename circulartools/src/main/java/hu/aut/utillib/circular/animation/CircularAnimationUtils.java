@@ -12,7 +12,7 @@ import hu.aut.utillib.circular.widget.CircularFrameLayout;
 
 public class CircularAnimationUtils {
 
-    private static final String CLIP_RADIUS = "RevealRadius";
+    private static final String RADIUS = "Radius";
     public static final int AUTOMATIC = 0;
     public static final int MANUAL = 1;
 
@@ -88,13 +88,13 @@ public class CircularAnimationUtils {
             throw new IllegalArgumentException("View must be inside CircularFrameLayout");
         }
 
-        CircularAnimator transformLayout = (CircularAnimator) target.getParent();
+        CircularFrameLayout transformLayout = (CircularFrameLayout) target.getParent();
         transformLayout.setTarget(target);
-        transformLayout.setClipOutlines(true);
+        transformLayout.setAnimated(true);
         transformLayout.setSource(source);
         transformLayout.setCenter(centerX, centerY);
 
-        ObjectAnimator transform = ObjectAnimator.ofFloat(transformLayout, CLIP_RADIUS, startRadius, endRadius);
+        ObjectAnimator transform = ObjectAnimator.ofFloat(transformLayout, RADIUS, startRadius, endRadius);
 
         if (source == null) {
             transform.addListener(new RevealListener(target, mode));
@@ -158,7 +158,7 @@ public class CircularAnimationUtils {
         RevealListener(View target, int mode) {
             targetReference = new WeakReference<>(target);
             parentReference = new WeakReference<>((CircularFrameLayout) targetReference.get().getParent());
-            originalLayerType = ((CircularFrameLayout)target.getParent()).getLayerType();
+            originalLayerType = ((CircularFrameLayout) target.getParent()).getLayerType();
             this.mode = mode;
         }
 
@@ -167,7 +167,7 @@ public class CircularAnimationUtils {
             if (!isHWAsupported()) {
                 parentReference.get().setLayerType(View.LAYER_TYPE_SOFTWARE, null);
             }
-            if(mode == AUTOMATIC) {
+            if (mode == AUTOMATIC) {
                 targetReference.get().setVisibility(View.VISIBLE);
             }
         }
@@ -194,7 +194,7 @@ public class CircularAnimationUtils {
         WeakReference<View> sourceReference;
 
         TransformListener(View target, View source, int mode) {
-            super(target,mode);
+            super(target, mode);
             sourceReference = new WeakReference<>(source);
         }
 
@@ -204,7 +204,7 @@ public class CircularAnimationUtils {
             if (!isHWAsupported()) {
                 parentReference.get().setLayerType(View.LAYER_TYPE_SOFTWARE, null);
             }
-            if(mode == AUTOMATIC) {
+            if (mode == AUTOMATIC) {
                 targetReference.get().setVisibility(View.VISIBLE);
             }
         }
@@ -214,7 +214,7 @@ public class CircularAnimationUtils {
             if (!isHWAsupported()) {
                 parentReference.get().setLayerType(originalLayerType, null);
             }
-            if(mode == AUTOMATIC) {
+            if (mode == AUTOMATIC) {
                 sourceReference.get().setVisibility(View.INVISIBLE);
             }
         }
