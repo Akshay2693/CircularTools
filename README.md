@@ -8,13 +8,11 @@ Circle based animations for Android (min. API 11)
 Currently implemented:
 - Circular reveal
 - Circular transform
+- <a href="http://material-design.storage.googleapis.com/videos/animation-responsive-interation-radialReact-example_large_xhdpi.webm">Radial reaction</a>
 
-Planned:
-- <a href="http://material-design.storage.googleapis.com/videos/animation-responsive-interation-radialReact-example_large_xhdpi.webm">Radial action</a>
-
-|**Reveal:**<a href="https://youtu.be/g83nwbi33c0">YouTube</a>|**Transform:**<a href="https://youtu.be/96eBHwWxTiA">YouTube</a>|
-|---------------|-----------|
-|<img src="http://i.imgur.com/pT0UqHA.gif" alt="Reveal DEMO" width="240" height="400" border="10" />|<img src="http://i.imgur.com/QeaoLpD.gif" alt="Transform DEMO" width="240" height="400" border="10" />|
+|**Reveal:**<a href="https://youtu.be/g83nwbi33c0">YouTube</a>|**Transform:**<a href="https://youtu.be/96eBHwWxTiA">YouTube</a>|**Radial reaction:**<a href="https://youtu.be/jv6fs12UJHo">YouTube</a>|
+|---------------|-----------|-----------|
+|<img src="http://i.imgur.com/pT0UqHA.gif" alt="Reveal DEMO" width="240" height="400" border="10" />|<img src="http://i.imgur.com/QeaoLpD.gif" alt="Transform DEMO" width="240" height="400" border="10" />|<img src="http://i.imgur.com/XkPNT4V.gif" alt="Radial reaction DEMO" width="240" height="400" border="10" />|
 
 
 Sample
@@ -29,6 +27,7 @@ Note
  
 Limitations
 -----------
+**For reveal and transform:**
 - it will never use the native `ViewAnimationUtils.createCircularReveal` method
 - currently there is an issue: views with elevation cannot be animated correctly on Lollipop and above.
 	- workaround A: set the LayerType of the target (or source) view to LayerType.SOFTWARE
@@ -39,6 +38,11 @@ Limitations
 |---------------|-----------|-----------|
 |   **Reveal**  |  Software |  Hardware |
 | **Transform** |  Software |  Hardware |
+
+**For radial reaction**
+- only one reaction can be animated at the same time, in the same `RadialReactionParent`
+- only one layout implemented yet: a LinearLayout.
+- once an affectedView is reached, it will be removed from the list in the `RadialReactionParent`. If you want to animate multiple times, you have to add the views again. See demo for details.
 
 Usage
 ------
@@ -51,7 +55,7 @@ For reveal and transform you have to wrap your animated views with a `CircularFr
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     
-    <!-- Put any child views here if you want, it's stock frame layout  -->
+    <!-- Put any child views here if you want, it's stock FrameLayout  -->
 
 </hu.aut.utillib.circular.widget.CircularFrameLayout>
 ```
@@ -85,6 +89,54 @@ animator.start();
 
 ```
 
+For radial reaction you have to wrap your views -that are affected by the radial reaction- with a `RadialReactionParent`. 
+- Wrap your view
+- Add a listener to it (this listener will be notified when the invisible circle reaches an affected view)
+- Add views to the parent's watchlist by calling `addAffectedView(View v)`
+- Create animation and start it
+- Get notified when the radial reaction's invisible circle reaches one of the affected view
+
+```xml
+<hu.aut.utillib.circular.widget.RadialReactionLinearLayout 
+    android:id="@+id/reaction_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+	<FrameLayout
+		android:id="@+id/child_1"
+		android:layout_width="80dp"
+		android:layout_height="80dp"
+		android:layout_alignParentTop="true"
+		android:layout_margin="10dp"
+		android:background="@color/material_deep_teal_500"
+		android:visibility="invisible" />
+
+    <!-- Put any child views here if you want, it's stock LinearLayout -->
+
+</hu.aut.utillib.circular.widget.RadialReactionLinearLayout>
+```
+**Radial reaction:**
+```java
+reactionParent = (RadialReactionParent) view.findViewById(R.id.reaction_parent);
+reactionParent.addListener(this);
+
+//add views
+reactionParent.addAffectedView(child1);
+
+ObjectAnimator animator = CircularAnimationUtils.createRadialReaction(reactionParent, fab, "action");
+animator.setInterpolator(new AccelerateDecelerateInterpolator());
+animator.setDuration(1500);
+animator.start();
+
+...
+
+    @Override
+    public void onRadialReaction(View affectedView, String action) {
+	//Do what you want with the view    
+    }
+
+```
+
 How to add dependency
 =====================
 
@@ -104,7 +156,7 @@ then add a library dependency
 
 ```groovy
 	dependencies {
-	        compile 'com.github.AutSoft:CircularTools:1.0.1'
+	        compile 'com.github.AutSoft:CircularTools:1.1.0'
 	}
 ```
 
