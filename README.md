@@ -1,8 +1,5 @@
 CircularTools
 ==============
-
-Readme and code is under development.
-
 Circle based animations for Android (min. API 11)
 
 Currently implemented:
