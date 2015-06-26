@@ -1,0 +1,124 @@
+<hu.aut.utillib.circular.widget.RadialReactionLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/reaction_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary_light"
+    tools:context="hu.gordon.circulardemo.fragments.RadialFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:gravity="center">
+
+            <FrameLayout
+                android:id="@+id/child_1"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_alignParentTop="true"
+                android:layout_margin="10dp"
+                android:background="@color/material_deep_teal_500"
+                android:visibility="invisible" />
+
+            <FrameLayout
+                android:id="@+id/child_2"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_alignParentTop="true"
+                android:layout_margin="10dp"
+                android:layout_toRightOf="@id/child_1"
+                android:background="@color/material_deep_teal_500"
+                android:visibility="invisible" />
+
+            <FrameLayout
+                android:id="@+id/child_3"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_alignParentTop="true"
+                android:layout_margin="10dp"
+                android:layout_toRightOf="@id/child_2"
+                android:background="@color/material_deep_teal_500"
+                android:visibility="invisible" />
+
+            <FrameLayout
+                android:id="@+id/child_4"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_below="@id/child_1"
+                android:layout_margin="10dp"
+                android:background="@color/material_deep_teal_500"
+                android:visibility="invisible" />
+
+            <FrameLayout
+                android:id="@+id/child_5"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_below="@+id/child_2"
+                android:layout_margin="10dp"
+                android:layout_toLeftOf="@+id/child_3"
+                android:layout_toStartOf="@+id/child_3"
+                android:background="@color/material_deep_teal_500"
+                android:visibility="invisible" />
+
+            <FrameLayout
+                android:id="@+id/child_6"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_alignLeft="@+id/child_9"
+                android:layout_alignStart="@+id/child_9"
+                android:layout_alignTop="@+id/child_5"
+                android:background="@color/material_deep_teal_500"
+                android:visibility="invisible" />
+
+            <FrameLayout
+                android:id="@+id/child_7"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_below="@id/child_4"
+                android:layout_margin="10dp"
+                android:background="@color/material_deep_teal_500"
+                android:visibility="invisible" />
+
+            <FrameLayout
+                android:id="@+id/child_8"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_below="@+id/child_4"
+                android:layout_margin="10dp"
+                android:layout_toLeftOf="@+id/child_3"
+                android:layout_toStartOf="@+id/child_3"
+                android:background="@color/material_deep_teal_500"
+                android:visibility="invisible" />
+
+            <FrameLayout
+                android:id="@+id/child_9"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_below="@+id/child_5"
+                android:layout_margin="10dp"
+                android:layout_toEndOf="@+id/child_8"
+                android:layout_toRightOf="@+id/child_8"
+                android:background="@color/material_deep_teal_500"
+                android:visibility="invisible" />
+
+
+        </RelativeLayout>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:src="@drawable/ic_refresh_white_36dp"
+            app:borderWidth="0dp" />
+    </RelativeLayout>
+</hu.aut.utillib.circular.widget.RadialReactionLinearLayout>

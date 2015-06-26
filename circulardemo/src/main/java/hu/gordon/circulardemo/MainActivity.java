@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import hu.gordon.circulardemo.fragments.RadialFragment;
 import hu.gordon.circulardemo.fragments.RevealFragment;
 import hu.gordon.circulardemo.fragments.TransformFragment;
 
@@ -66,6 +67,9 @@ public class MainActivity extends AppCompatActivity {
                                 break;
                             case R.id.navigation_item_2:
                                 fm.beginTransaction().replace(R.id.fragment, new TransformFragment()).commit();
+                                break;
+                            case R.id.navigation_item_3:
+                                fm.beginTransaction().replace(R.id.fragment, new RadialFragment()).commit();
                                 break;
                         }
 

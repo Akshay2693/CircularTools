@@ -6,7 +6,6 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.CardView;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -73,7 +72,7 @@ public class RevealFragment extends Fragment {
                 myView.getLocationInWindow(myViewLocation);
 
                 float finalRadius = CircularAnimationUtils.hypo(screenWidth - myViewLocation[0], screenHeight - myViewLocation[1]);
-                int[] center = CircularAnimationUtils.getCenter(fab, myView);
+                int[] center = CircularAnimationUtils.getCenter(fab, (View) myView.getParent());
 
                 ObjectAnimator animator =
                         CircularAnimationUtils.createCircularReveal(myView, center[0], center[1], 0, finalRadius);

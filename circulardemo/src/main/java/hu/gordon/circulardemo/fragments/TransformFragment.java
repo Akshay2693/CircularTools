@@ -100,7 +100,7 @@ public class TransformFragment extends Fragment implements Animator.AnimatorList
                 myTargetView.getLocationInWindow(myTargetViewLocation);
 
                 float finalRadius = CircularAnimationUtils.hypo(screenWidth - myTargetViewLocation[0], screenHeight - myTargetViewLocation[1]);
-                int[] center = CircularAnimationUtils.getCenter(fab, myTargetView);
+                int[] center = CircularAnimationUtils.getCenter(fab, (View) myTargetView.getParent());
 
                 animator =
                         CircularAnimationUtils.createCircularTransform(myTargetView, mySourceView, center[0], center[1], 0F, finalRadius);
