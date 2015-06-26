@@ -12,9 +12,60 @@ import hu.aut.utillib.circular.widget.CircularFrameLayout;
 
 public class CircularAnimationUtils {
 
-    private static final String RADIUS = "Radius";
     public static final int AUTOMATIC = 0;
     public static final int MANUAL = 1;
+    private static final String RADIUS = "Radius";
+
+    /**
+     * Creates a radial reaction animation in the container parent with the provided action
+     *
+     * @param parent The container view. It's radius property will be animated
+     * @param origin The view which will be the origin of the event
+     * @param action This helps to identify the event in that case when there are multiple use cases for radial reaction.
+     *               In the RadialReactionListener.onRadialReaction() callback you'll get back this action to detect which event happened.
+     * @return The radial reaction animation
+     */
+    public static ObjectAnimator createRadialReaction(RadialReactionParent parent, View origin, String action) {
+        if (parent == null) {
+            throw new IllegalArgumentException("Parent can't be null!");
+        } else if (origin == null) {
+            throw new IllegalArgumentException("Origin can't be null!");
+        }
+        int[] position = new int[2];
+        origin.getLocationOnScreen(position);
+
+        int[] center = getCenter(origin, (View) parent);
+        parent.setCenter(center[0], center[1]);
+        parent.setAction(action);
+
+        ObjectAnimator radialReaction = ObjectAnimator.ofFloat(parent, RADIUS, 0, parent.getMaxRadius());
+        radialReaction.addListener(new RadialListener(parent));
+        return radialReaction;
+    }
+
+
+    /**
+     * Creates a radial reaction animation in the container parent with the provided action
+     *
+     * @param parent  The container view. It's radius property will be animated
+     * @param centerX X coordinate of the circle's center
+     * @param centerY Y coordinate of the circle's center
+     * @param action  This helps to identify the event in that case when there are multiple use cases for radial reaction.
+     *                In the RadialReactionListener.onRadialReaction() callback you'll get back this action to detect which event happened.
+     * @return The radial reaction animation
+     */
+    public static ObjectAnimator createRadialReaction(RadialReactionParent parent, int centerX, int centerY, String action) {
+        if (parent == null) {
+            throw new IllegalArgumentException("Parent can't be null!");
+        }
+
+        parent.setCenter(centerX, centerY);
+        parent.setAction(action);
+
+        ObjectAnimator radialReaction = ObjectAnimator.ofFloat(parent, RADIUS, 0, parent.getMaxRadius());
+        radialReaction.addListener(new RadialListener(parent));
+        return radialReaction;
+    }
 
     /**
      * Returns an ObjectAnimator which can animate a clipping circle for a reveal effect.
@@ -126,8 +177,7 @@ public class CircularAnimationUtils {
 
         // get the center for the clipping circle for the view
         int[] targetPosition = new int[2];
-        CircularFrameLayout parent = ((CircularFrameLayout) target.getParent());
-        parent.getLocationOnScreen(targetPosition);
+        target.getLocationOnScreen(targetPosition);
 
         int[] center = new int[2];
 
@@ -147,7 +197,6 @@ public class CircularAnimationUtils {
     public static boolean isHWAsupported() {
         return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2);
     }
-
 
     static class RevealListener implements AnimatorListener {
         int originalLayerType;
@@ -220,4 +269,31 @@ public class CircularAnimationUtils {
         }
     }
 
+    static class RadialListener implements AnimatorListener {
+        WeakReference<RadialReactionParent> parentReference;
+
+        RadialListener(RadialReactionParent parent) {
+            parentReference = new WeakReference<>(parent);
+        }
+
+        @Override
+        public void onAnimationStart(Animator animation) {
+            parentReference.get().setAnimated(true);
+        }
+
+        @Override
+        public void onAnimationEnd(Animator animation) {
+            parentReference.get().setAnimated(false);
+        }
+
+        @Override
+        public void onAnimationCancel(Animator animation) {
+
+        }
+
+        @Override
+        public void onAnimationRepeat(Animator animation) {
+
+        }
+    }
 }
